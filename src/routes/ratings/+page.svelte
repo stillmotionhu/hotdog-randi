@@ -11,6 +11,7 @@
 	import RatingCard from '@/components/shared/rating-card/RatingCard.svelte';
 
 	let ratings: Array<Rating> = $state<Array<Rating>>([]);
+	let filteredRatings: Array<Rating> = $state<Array<Rating>>([]);
 	let isReady: boolean = $state<boolean>(false);
 	let isLoading: boolean = $state<boolean>(true);
 	let hasSpinnerFadedOut: boolean = $state<boolean>(false);
@@ -29,6 +30,12 @@
 		filterValue = value;
 	};
 
+	const handleSearchValueChange = (value: string) => {
+		filteredRatings = ratings.filter((rating: Rating) =>
+			rating.locationName.toLowerCase().includes(value.toLowerCase())
+		);
+	};
+
 	$effect((): void => {
 		if (!userState.uid) {
 			return;
@@ -42,6 +49,10 @@
 			ratings = data || [];
 			isLoading = false;
 		});
+	});
+
+	$effect((): void => {
+		handleSearchValueChange(searchValue);
 	});
 </script>
 
@@ -64,7 +75,7 @@
 			{#if ratings.length === 0}
 				You have no ratings yet. You can change that!
 			{:else}
-				{#each ratings as rating (rating.uid)}
+				{#each filteredRatings as rating (rating.uid)}
 					<RatingCard {rating} />
 				{/each}
 			{/if}
