@@ -2,6 +2,8 @@
 	import type { AutocompleteType } from '@/types/autocomplete-type';
 	import type { InputType } from '@/types/input-type';
 
+	import SearchIcon from '@/components/shared/icons/SearchIcon.svelte';
+
 	interface InputProps {
 		type: InputType;
 		name: string;
@@ -35,7 +37,15 @@
 		{maxlength}
 		bind:value
 	/>
-	<label class="input__label" for={name}>{placeholder}</label>
+	<label class="input__label" for={name}>
+		{#if type === 'search'}
+			<span class="input__label__icon" aria-hidden="true">
+				<SearchIcon />
+			</span>
+		{/if}
+
+		<span class="input__label__text">{placeholder}</span>
+	</label>
 </div>
 
 <style lang="scss">
@@ -62,6 +72,7 @@
 
 		&__field {
 			font-size: 1em;
+			line-height: 1em;
 			color: rgb(var(--fg));
 			width: 100%;
 			height: 60px;
@@ -69,6 +80,10 @@
 			border-radius: 30px;
 			background-color: transparent;
 			outline: none;
+
+			&:has(~ .input__label .input__label__icon) {
+				padding-left: calc(25px + 1em + 6px);
+			}
 
 			&:-webkit-autofill {
 				&,
@@ -85,6 +100,11 @@
 		}
 
 		&__label {
+			display: flex;
+			flex-direction: row;
+			justify-content: start;
+			align-items: center;
+			gap: 6px;
 			position: absolute;
 			top: 7px;
 			left: 1px;
@@ -94,8 +114,17 @@
 			padding: 15px 25px;
 			cursor: text;
 
-			.input__field:not(:placeholder-shown) ~ & {
-				visibility: hidden;
+			&__text {
+				line-height: 1em;
+
+				.input__field:not(:placeholder-shown) ~ .input__label & {
+					visibility: hidden;
+				}
+			}
+
+			&__icon {
+				aspect-ratio: 1;
+				height: 1em;
 			}
 		}
 	}
