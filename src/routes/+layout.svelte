@@ -1,7 +1,8 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import { page } from '$app/state';
-	import { goto } from '$app/navigation';
+	import { beforeNavigate, goto } from '$app/navigation';
+	import type { BeforeNavigate } from '@sveltejs/kit';
 	import { userState } from '@/states/user.svelte';
 	import {
 		updateNagivationActiveRoute,
@@ -14,12 +15,32 @@
 	import AppContainer from '@/components/layout/AppContainer.svelte';
 	import PageWrapper from '@/components/layout/PageWrapper.svelte';
 	import Navigation from '@/components/navigation/Navigation.svelte';
+	import { resolveRoute } from '$app/paths';
+	import { smoothScrollToTop } from '@/utils/smooth-scroll-to-top';
 
 	interface LayoutProps {
 		children: Snippet;
 	}
 
 	let { children }: LayoutProps = $props();
+
+	beforeNavigate(({ from, to, cancel }: BeforeNavigate): void => {
+		// Check if the navigation is valid. There is a route where the navigation originates from, and the is a route where it"s headed.
+		if (!(from && to && to.route.id)) {
+			return;
+		}
+
+		// If the user wants to navigate to the same page where they are now, just
+		// cancel it and scroll to the top of the page.
+		// If we don't cancel it, the page scrolls to the top, and it overrides the
+		// smooth scrolling.
+		if (from.route.id === to.route.id) {
+			cancel();
+			smoothScrollToTop();
+
+			return;
+		}
+	});
 
 	/* Set up page guards and some other stuff of navigating (e.g. navigation pill
 	position updating.). */
