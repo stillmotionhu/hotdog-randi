@@ -1,0 +1,11 @@
+# Node files
+node_modules/
+
+# Build files
+build/
+
+# MAC files
+.DS_Store
+
+# Svelte Generated Files
+.svelte-kit
