@@ -27,7 +27,7 @@
 	.rating-card__item {
 		display: flex;
 		flex-direction: column;
-		gap: 8px;
+		gap: 10px;
 
 		&__header {
 			display: flex;
