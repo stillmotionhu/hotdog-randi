@@ -61,6 +61,7 @@ export async function fetchRatingsByUserUid(
 			customerServiceNotes: data.customer_service_notes,
 			overallExperienceRating: data.overall_experience_rating,
 			overallExperienceNotes: data.overall_experience_notes,
+			extras: data.extras,
 			score: data.score,
 			metadata: {
 				createdBy: data.metadata.created_by,

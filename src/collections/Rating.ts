@@ -21,6 +21,7 @@ export interface Rating {
 	customerServiceNotes: string;
 	overallExperienceRating: number;
 	overallExperienceNotes: string;
+	extras: string;
 	score: number;
 	metadata: {
 		createdBy: string;
