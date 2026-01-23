@@ -171,14 +171,15 @@
 			:global(.icon) {
 				aspect-ratio: 1;
 				height: 20px;
-				fill: rgb(var(--fg));
+				stroke: rgb(var(--fg));
+				stroke-width: 0.4;
 
 				@include breakpoint(md) {
 					height: 17px;
 				}
 
 				@include breakpoint(sm) {
-					height: 25px;
+					height: 32px;
 				}
 			}
 		}
