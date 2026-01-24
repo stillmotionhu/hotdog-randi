@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { signInUser } from '@/utils/auth/sign-in-user';
 
+	import PageContainer from '@/components/layout/PageContainer.svelte';
 	import PageTitle from '@/components/shared/PageTitle.svelte';
 	import Form from '@/components/shared/Form.svelte';
 	import Input from '@/components/shared/Input.svelte';
@@ -36,10 +37,12 @@
 	});
 </script>
 
-<PageTitle>Sign In</PageTitle>
+<PageContainer isCentered>
+	<PageTitle>Sign In</PageTitle>
 
-<Form>
-	<Input type="email" name="email" label="Email Address" bind:value={email} required />
-	<Input type="password" name="password" label="Password" bind:value={password} required />
-	<Button isDisabled={isSubmitButtonDisabled} {isLoading} onclick={handleSubmit}>Sign In</Button>
-</Form>
+	<Form>
+		<Input type="email" name="email" label="Email Address" bind:value={email} required />
+		<Input type="password" name="password" label="Password" bind:value={password} required />
+		<Button isDisabled={isSubmitButtonDisabled} {isLoading} onclick={handleSubmit}>Sign In</Button>
+	</Form>
+</PageContainer>

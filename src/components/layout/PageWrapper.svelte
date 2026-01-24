@@ -16,11 +16,14 @@
 	@use '@/styles/breakpoint.scss' as *;
 
 	.page__wrapper {
-		padding: 150px 0 50px;
 		width: var(--container-width);
 
-		@include breakpoint(lg) {
-			padding: 35px 0 125px;
+		&:not(:has(.page-container--centered)) {
+			padding: 150px 0 50px;
+
+			@include breakpoint(lg) {
+				padding: 35px 0 125px;
+			}
 		}
 	}
 </style>
