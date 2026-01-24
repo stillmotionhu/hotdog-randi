@@ -15,7 +15,6 @@
 	import AppContainer from '@/components/layout/AppContainer.svelte';
 	import PageWrapper from '@/components/layout/PageWrapper.svelte';
 	import Navigation from '@/components/navigation/Navigation.svelte';
-	import { resolveRoute } from '$app/paths';
 	import { smoothScrollToTop } from '@/utils/smooth-scroll-to-top';
 
 	interface LayoutProps {

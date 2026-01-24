@@ -106,14 +106,14 @@
 		name="location-name"
 		label="Location Name"
 		bind:value={locationName}
-		required={true}
+		required
 	/>
 	<Input
 		type="text"
 		name="location-address"
 		label="Location Address"
 		bind:value={locationAddress}
-		required={true}
+		required
 	/>
 	<!-- TODO: Date Picker -->
 	<RangeInput name="dog-rating" label="Dog" bind:value={dogRating} />
