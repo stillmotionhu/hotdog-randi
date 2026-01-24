@@ -1,6 +1,6 @@
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, type UserCredential } from 'firebase/auth';
 
-export async function signInUser(email: string, password: string): Promise<void> {
+export async function signInUser(email: string, password: string): Promise<UserCredential> {
 	if (!(email && password)) {
 		throw new Error('Email and password must be provided.');
 	}
@@ -8,7 +8,9 @@ export async function signInUser(email: string, password: string): Promise<void>
 	const auth = getAuth();
 
 	try {
-		await signInWithEmailAndPassword(auth, email, password);
+		const userCredential: UserCredential = await signInWithEmailAndPassword(auth, email, password);
+
+		return userCredential;
 	} catch (error) {
 		throw new Error(`Failed to sign in: ${(error as Error).message}`);
 	}

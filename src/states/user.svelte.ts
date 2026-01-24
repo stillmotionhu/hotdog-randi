@@ -1,3 +1,4 @@
+import { goto } from '$app/navigation';
 import { getAuth, onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
 import { doc, Timestamp, updateDoc } from 'firebase/firestore';
 import { database } from '@/lib/firebase';
@@ -43,7 +44,10 @@ onAuthStateChanged(getAuth(), async (user: FirebaseUser | null): Promise<void> =
 	userState.data = userData;
 	userState.uid = user.uid;
 	userState.isSignedIn = true;
-	userState.isLoading = false;
 
-	console.log(userState);
+	if (!userState.isLoading) {
+		goto('/');
+	}
+
+	userState.isLoading = false;
 });

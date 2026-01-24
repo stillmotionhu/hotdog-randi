@@ -6,6 +6,7 @@
 	import Form from '@/components/shared/Form.svelte';
 	import Input from '@/components/shared/Input.svelte';
 	import Button from '@/components/shared/Button.svelte';
+	import type { UserCredential } from 'firebase/auth';
 
 	let email: string = $state<string>('');
 	let password: string = $state<string>('');
@@ -22,13 +23,10 @@
 
 		try {
 			await signInUser(email, password);
-
-			goto('/');
 		} catch (error) {
 			console.error('Error signing in:', error);
 
 			password = '';
-		} finally {
 			isLoading = false;
 		}
 	};

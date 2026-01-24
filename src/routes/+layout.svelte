@@ -8,6 +8,7 @@
 		updateNagivationActiveRoute,
 		updateNavigationActiveRoutePillWidthAndPosition
 	} from '@/states/navigation.svelte';
+	import { smoothScrollToTop } from '@/utils/smooth-scroll-to-top';
 
 	import { ADMIN_ROUTES, AUTH_ROUTES, NO_AUTH_ROUTES } from '@/constants';
 
@@ -15,7 +16,6 @@
 	import AppContainer from '@/components/layout/AppContainer.svelte';
 	import PageWrapper from '@/components/layout/PageWrapper.svelte';
 	import Navigation from '@/components/navigation/Navigation.svelte';
-	import { smoothScrollToTop } from '@/utils/smooth-scroll-to-top';
 
 	interface LayoutProps {
 		children: Snippet;
@@ -50,19 +50,15 @@
 
 		const currentPath = page.url.pathname;
 
-		// TODO: Custom redirects for each guards.
 		if (
-			// Catch if a signed in user tries to go to an admin page.
-			(ADMIN_ROUTES.includes(currentPath) &&
-				userState.isSignedIn &&
-				userState.data &&
-				userState.data.role !== 'admin') ||
-			// Catch if a signed in user tries to go to a no-auth page.
-			(NO_AUTH_ROUTES.includes(currentPath) && userState.isSignedIn) ||
-			// Catch if a visitor tries to go to an auth protected page.
-			(AUTH_ROUTES.includes(currentPath) && !userState.isSignedIn)
+			ADMIN_ROUTES.includes(currentPath) &&
+			!(userState.isSignedIn && userState.data && userState.data.role === 'admin')
 		) {
 			goto('/');
+		} else if (NO_AUTH_ROUTES.includes(currentPath) && userState.isSignedIn) {
+			goto('/');
+		} else if (AUTH_ROUTES.includes(currentPath) && !userState.isSignedIn) {
+			goto('/sign-in');
 		}
 
 		updateNagivationActiveRoute();
