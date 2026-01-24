@@ -58,7 +58,7 @@
 
 <header class="ratings__header">
 	<div class="ratings__header__container">
-		<Input type="search" name="search" placeholder="Search..." bind:value={searchValue} />
+		<Input type="search" name="search" label="Search..." bind:value={searchValue} />
 		<RatingsFilter {handleFilterValueChange} {filterValue} />
 	</div>
 </header>
@@ -89,7 +89,7 @@
 	@keyframes reveal-ratings-header-element {
 		0% {
 			opacity: 0;
-			transform: scale(0.8);
+			transform: scale(0.6, 0.8);
 		}
 
 		100% {

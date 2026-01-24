@@ -17,6 +17,7 @@
 
 	.page__wrapper {
 		padding: 150px 0 50px;
+		width: var(--container-width);
 
 		@include breakpoint(lg) {
 			padding: 35px 0 125px;

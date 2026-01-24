@@ -3,14 +3,15 @@
 
 	interface SpinnerProps {
 		size?: SpinnerSize;
-		shouldFadeOut: boolean;
-		onAnimationEnd: () => void;
+		isIconOnly?: boolean;
+		shouldFadeOut?: boolean;
+		onAnimationEnd?: () => void;
 	}
 
-	let { size = 'md', shouldFadeOut, onAnimationEnd }: SpinnerProps = $props();
+	let { size = 'md', isIconOnly = false, shouldFadeOut, onAnimationEnd }: SpinnerProps = $props();
 
 	const handleAnimationEnd = (event: AnimationEvent): void => {
-		if (event.animationName !== 'spinner-fade-out') {
+		if (event.animationName !== 'spinner-fade-out' || !onAnimationEnd) {
 			return;
 		}
 
@@ -18,44 +19,61 @@
 	};
 </script>
 
-<div class={['spinner__container', shouldFadeOut && 'animate']} onanimationend={handleAnimationEnd}>
+{#if isIconOnly}
 	<span class="spinner" data-size={size}></span>
-</div>
+{:else}
+	<div
+		class={['spinner__container', shouldFadeOut && 'animate']}
+		onanimationend={handleAnimationEnd}
+	>
+		<span class="spinner" data-size={size}></span>
+	</div>
+{/if}
 
 <style lang="scss">
 	@keyframes spinner-clip-path {
 		0% {
 			clip-path: polygon(50% 50%, 0 0, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 0%);
 		}
+
 		12.5% {
 			clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 0%, 100% 0%, 100% 0%);
 		}
+
 		25% {
 			clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 100%, 100% 100%, 100% 100%);
 		}
+
 		50% {
 			clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 100%, 50% 100%, 0% 100%);
 		}
+
 		62.5% {
 			clip-path: polygon(50% 50%, 100% 0, 100% 0%, 100% 0%, 100% 100%, 50% 100%, 0% 100%);
 		}
+
 		75% {
 			clip-path: polygon(50% 50%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 50% 100%, 0% 100%);
 		}
+
 		100% {
 			clip-path: polygon(50% 50%, 50% 100%, 50% 100%, 50% 100%, 50% 100%, 50% 100%, 0% 100%);
 		}
 	}
+
 	@keyframes spinner-transform {
 		0% {
 			transform: scaleY(1) rotate(0deg);
 		}
+
 		49.99% {
 			transform: scaleY(1) rotate(135deg);
 		}
+
 		50% {
 			transform: scaleY(-1) rotate(0deg);
 		}
+
 		100% {
 			transform: scaleY(-1) rotate(-135deg);
 		}
@@ -108,8 +126,8 @@
 		}
 
 		&[data-size='sm'] {
-			width: 30px;
-			border-width: 4px;
+			width: 23px;
+			border-width: 3px;
 		}
 
 		&__container {

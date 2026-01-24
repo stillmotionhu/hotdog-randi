@@ -2,37 +2,37 @@
 	import type { AutocompleteType } from '@/types/autocomplete-type';
 	import type { InputType } from '@/types/input-type';
 
-	import SearchIcon from '@/components/shared/icons/SearchIcon.svelte';
+	import SearchInputIcon from './icons/SearchInputIcon.svelte';
 
 	interface InputProps {
 		type: InputType;
 		name: string;
-		placeholder: string;
+		label: string;
 		autocomplete?: AutocompleteType;
 		maxlength?: number;
 		required?: boolean;
 		value: string | null;
-		hasError?: boolean;
+		errors?: Array<string>;
 	}
 
 	let {
 		type,
 		name,
-		placeholder,
+		label,
 		autocomplete = 'off',
 		maxlength,
 		required = false,
 		value = $bindable<string | null>(''),
-		hasError = $bindable<boolean>(false)
+		errors = $bindable<Array<string>>([])
 	}: InputProps = $props();
 </script>
 
-<div class="input" data-required={required} data-has-error={hasError}>
+<div class="input" data-required={required} data-has-error={errors.length > 0}>
 	<input
 		class="input__field"
 		{type}
 		id={name}
-		{placeholder}
+		placeholder={label}
 		{autocomplete}
 		{maxlength}
 		bind:value
@@ -40,11 +40,11 @@
 	<label class="input__label" for={name}>
 		{#if type === 'search'}
 			<span class="input__label__icon" aria-hidden="true">
-				<SearchIcon />
+				<SearchInputIcon />
 			</span>
 		{/if}
 
-		<span class="input__label__text">{placeholder}</span>
+		<span class="input__label__text">{label}</span>
 	</label>
 </div>
 
@@ -120,11 +120,20 @@
 				.input__field:not(:placeholder-shown) ~ .input__label & {
 					visibility: hidden;
 				}
+
+				.input[data-required='true'] &::after {
+					content: '*';
+					color: rgb(240, 10, 10);
+					margin-left: 2px;
+				}
 			}
 
 			&__icon {
-				aspect-ratio: 1;
-				height: 1em;
+				:global(.icon) {
+					aspect-ratio: 1;
+					height: 1em;
+					fill: rgb(var(--fg));
+				}
 			}
 		}
 	}
