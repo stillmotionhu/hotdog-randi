@@ -5,6 +5,7 @@
 	--fg: 0, 42, 50;
 	--element-bg: 250, 243, 240;
 	--primary-color: 245, 165, 36;
+	--danger-color: 220, 13, 49;
 	--container-width: 80vw;
 
 	@include breakpoint(xl) {

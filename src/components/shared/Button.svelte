@@ -38,14 +38,8 @@
 	.button {
 		width: 100%;
 		height: 60px;
-		color: rgb(var(--fg));
 		border-radius: 30px;
 		border: 1px solid rgba(255, 255, 255, 0.3);
-		background-image: linear-gradient(
-			145deg,
-			color-mix(in srgb, rgba(var(--primary-color, 0.5)), white 15%),
-			color-mix(in srgb, rgba(var(--primary-color, 0.5)), black 5%)
-		);
 		box-shadow:
 			0 0px 32px rgba(0, 0, 0, 0.07),
 			inset 0 1px 0 rgba(255, 255, 255, 0.5),
@@ -58,15 +52,44 @@
 			transform 0.25s cubic-bezier(0.44, 1.14, 0.43, 1.32),
 			color 0.35s ease-in-out,
 			background-image 0.45s ease-in-out;
-		transition-delay: 0.05s;
 
-		&:disabled {
-			color: color-mix(in srgb, rgb(var(--fg)), white 20%);
+		&[data-color='primary'] {
+			color: rgb(var(--fg));
 			background-image: linear-gradient(
 				145deg,
-				color-mix(in srgb, rgba(var(--primary-color, 0.5)), white 30%),
-				color-mix(in srgb, rgba(var(--primary-color, 0.5)), white 25%)
+				color-mix(in srgb, rgba(var(--primary-color, 0.5)), white 15%),
+				color-mix(in srgb, rgba(var(--primary-color, 0.5)), black 5%)
 			);
+
+			&:disabled {
+				color: color-mix(in srgb, rgb(var(--fg)), white 20%);
+				background-image: linear-gradient(
+					145deg,
+					color-mix(in srgb, rgba(var(--primary-color, 0.5)), white 30%),
+					color-mix(in srgb, rgba(var(--primary-color, 0.5)), white 25%)
+				);
+			}
+		}
+
+		&[data-color='danger'] {
+			color: rgb(var(--bg));
+			background-image: linear-gradient(
+				145deg,
+				color-mix(in srgb, rgba(var(--danger-color, 0.5)), white 15%),
+				color-mix(in srgb, rgba(var(--danger-color, 0.5)), black 5%)
+			);
+
+			&:disabled {
+				color: color-mix(in srgb, rgb(var(--bg)), black 5%);
+				background-image: linear-gradient(
+					145deg,
+					color-mix(in srgb, rgba(var(--danger-color, 0.5)), white 30%),
+					color-mix(in srgb, rgba(var(--danger-color, 0.5)), white 25%)
+				);
+			}
+		}
+
+		&:disabled {
 			cursor: text;
 		}
 
