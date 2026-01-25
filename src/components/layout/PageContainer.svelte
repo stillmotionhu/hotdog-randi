@@ -2,14 +2,15 @@
 	import type { Snippet } from 'svelte';
 
 	interface PageContainerProps {
-		children: Snippet;
+		id?: string;
 		isCentered?: boolean;
+		children: Snippet;
 	}
 
-	let { children, isCentered = false }: PageContainerProps = $props();
+	let { children, id, isCentered = false }: PageContainerProps = $props();
 </script>
 
-<div class={['page-container', isCentered && 'page-container--centered']}>
+<div class={['page-container', isCentered && 'page-container--centered']} {id}>
 	{@render children()}
 </div>
 
