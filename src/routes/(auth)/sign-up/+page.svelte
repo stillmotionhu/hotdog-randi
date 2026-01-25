@@ -75,7 +75,12 @@
 					bind:value={confirmPassword}
 					required
 				/>
-				<Button isDisabled={isSubmitButtonDisabled} {isLoading} onclick={handleSubmit}>
+				<Button
+					type="submit"
+					isDisabled={isSubmitButtonDisabled}
+					{isLoading}
+					onclick={handleSubmit}
+				>
 					Sign Up
 				</Button>
 			</Form>

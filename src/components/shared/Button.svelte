@@ -1,10 +1,12 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import type { ButtonType } from '@/types/button-type';
 	import type { ButtonColor } from '@/types/button-color';
 
 	import Spinner from '@/components/shared/Spinner.svelte';
 
 	interface ButtonProps {
+		type?: ButtonType;
 		color?: ButtonColor;
 		isDisabled?: boolean;
 		isLoading?: boolean;
@@ -13,6 +15,7 @@
 	}
 
 	let {
+		type = 'button',
 		color = 'primary',
 		isDisabled = false,
 		isLoading = false,
@@ -23,7 +26,7 @@
 
 <button
 	class="button"
-	type="button"
+	{type}
 	disabled={isDisabled}
 	tabindex="0"
 	data-color={color}

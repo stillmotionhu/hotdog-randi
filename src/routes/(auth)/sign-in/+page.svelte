@@ -51,7 +51,12 @@
 			<Form>
 				<Input type="email" name="email" label="Email Address" bind:value={email} required />
 				<Input type="password" name="password" label="Password" bind:value={password} required />
-				<Button isDisabled={isSubmitButtonDisabled} {isLoading} onclick={handleSubmit}>
+				<Button
+					type="submit"
+					isDisabled={isSubmitButtonDisabled}
+					{isLoading}
+					onclick={handleSubmit}
+				>
 					Sign In
 				</Button>
 			</Form>
