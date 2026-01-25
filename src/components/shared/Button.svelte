@@ -89,6 +89,15 @@
 			}
 		}
 
+		&[data-color='google'] {
+			color: rgb(var(--bg));
+			background-image: linear-gradient(
+				145deg,
+				color-mix(in srgb, rgba(var(--fg, 0.5)), white 2%),
+				color-mix(in srgb, rgba(var(--fg, 0.5)), black 5%)
+			);
+		}
+
 		&:disabled {
 			cursor: text;
 		}
@@ -105,6 +114,7 @@
 			justify-content: center;
 			width: 100%;
 			height: 60px;
+			font-size: 1rem;
 			transition: transform 0.35s cubic-bezier(0.6, 0.5, 0.05, 1);
 
 			.button[data-state='default'] & {
@@ -115,8 +125,20 @@
 				transform: translateY(-60px);
 			}
 
+			&:has(:global(.icon)) {
+				justify-content: flex-start;
+				gap: 0.8rem;
+				font-weight: 600;
+				padding: 0 calc((60px - 1.75rem) / 2);
+			}
+
 			:global(.spinner) {
 				border-color: rgb(var(--fg));
+			}
+
+			:global(.icon) {
+				aspect-ratio: 1;
+				height: 1.75rem;
 			}
 		}
 	}

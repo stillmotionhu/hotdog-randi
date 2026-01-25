@@ -1,1 +1,1 @@
-export type ButtonColor = 'primary' | 'dark' | 'danger';
+export type ButtonColor = 'primary' | 'dark' | 'danger' | 'google';

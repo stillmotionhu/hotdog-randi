@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { signInUser } from '@/utils/auth/sign-in-user';
+	import { signInUserWithEmailAndPassword } from '@/utils/auth/sign-in-user-with-email-and-password';
 
 	import PageContainer from '@/components/layout/PageContainer.svelte';
 	import Card from '@/components/shared/card/Card.svelte';
@@ -8,8 +8,10 @@
 	import CardContent from '@/components/shared/card/CardContent.svelte';
 	import CardFooter from '@/components/shared/card/CardFooter.svelte';
 	import Form from '@/components/shared/Form.svelte';
+	import FormSeparator from '@/components/shared/FormSeparator.svelte';
 	import Input from '@/components/shared/Input.svelte';
 	import Button from '@/components/shared/Button.svelte';
+	import ContinueWithGoogleButton from '@/components/shared/ContinueWithGoogleButton.svelte';
 
 	let email: string = $state<string>('');
 	let password: string = $state<string>('');
@@ -25,7 +27,7 @@
 		isLoading = true;
 
 		try {
-			await signInUser(email, password);
+			await signInUserWithEmailAndPassword(email, password);
 		} catch (error) {
 			console.error('Error signing in:', error);
 
@@ -57,6 +59,10 @@
 
 		<CardFooter>
 			<p>Don't have an account? <a href="/sign-up">Sign Up</a></p>
+
+			<FormSeparator />
+
+			<ContinueWithGoogleButton />
 		</CardFooter>
 	</Card>
 </PageContainer>

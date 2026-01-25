@@ -1,6 +1,9 @@
 import { getAuth, signInWithEmailAndPassword, type UserCredential } from 'firebase/auth';
 
-export async function signInUser(email: string, password: string): Promise<UserCredential> {
+export async function signInUserWithEmailAndPassword(
+	email: string,
+	password: string
+): Promise<UserCredential> {
 	if (!(email && password)) {
 		throw new Error('Email and password must be provided.');
 	}

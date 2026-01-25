@@ -15,7 +15,9 @@
 <style lang="scss">
 	.card__footer {
 		display: flex;
-		justify-content: flex-end;
+		flex-direction: column;
+		align-items: flex-end;
+		gap: 1rem;
 		font-size: 0.875rem;
 
 		:global(a) {
