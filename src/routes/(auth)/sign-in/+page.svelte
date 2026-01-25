@@ -1,13 +1,15 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { signInUser } from '@/utils/auth/sign-in-user';
 
 	import PageContainer from '@/components/layout/PageContainer.svelte';
-	import PageTitle from '@/components/shared/PageTitle.svelte';
+	import Card from '@/components/shared/card/Card.svelte';
+	import CardHeader from '@/components/shared/card/CardHeader.svelte';
+	import CardTitle from '@/components/shared/card/CardTitle.svelte';
+	import CardContent from '@/components/shared/card/CardContent.svelte';
+	import CardFooter from '@/components/shared/card/CardFooter.svelte';
 	import Form from '@/components/shared/Form.svelte';
 	import Input from '@/components/shared/Input.svelte';
 	import Button from '@/components/shared/Button.svelte';
-	import type { UserCredential } from 'firebase/auth';
 
 	let email: string = $state<string>('');
 	let password: string = $state<string>('');
@@ -38,11 +40,23 @@
 </script>
 
 <PageContainer isCentered>
-	<PageTitle>Sign In</PageTitle>
+	<Card isBgTransparent>
+		<CardHeader>
+			<CardTitle>Sign In</CardTitle>
+		</CardHeader>
 
-	<Form>
-		<Input type="email" name="email" label="Email Address" bind:value={email} required />
-		<Input type="password" name="password" label="Password" bind:value={password} required />
-		<Button isDisabled={isSubmitButtonDisabled} {isLoading} onclick={handleSubmit}>Sign In</Button>
-	</Form>
+		<CardContent>
+			<Form>
+				<Input type="email" name="email" label="Email Address" bind:value={email} required />
+				<Input type="password" name="password" label="Password" bind:value={password} required />
+				<Button isDisabled={isSubmitButtonDisabled} {isLoading} onclick={handleSubmit}
+					>Sign In</Button
+				>
+			</Form>
+		</CardContent>
+
+		<CardFooter>
+			<p>Don't have an account? <a href="/sign-up">Sign Up</a></p>
+		</CardFooter>
+	</Card>
 </PageContainer>
