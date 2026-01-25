@@ -14,6 +14,7 @@
 
 <style lang="scss">
 	.page-title {
+		font-family: Inter, Helvetica, sans-serif;
 		font-size: 1.75rem;
 		font-weight: 700;
 		line-height: 2rem;
