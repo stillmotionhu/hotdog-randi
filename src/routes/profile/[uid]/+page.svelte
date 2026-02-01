@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { onMount } from 'svelte';
+	import { navigating } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { userState } from '@/states/user.svelte';
 	import type { User } from '@/collections/User';
@@ -18,8 +18,9 @@
 	import RatingsContainer from '@/components/shared/RatingsContainer.svelte';
 	import RatingCard from '@/components/shared/rating-card/RatingCard.svelte';
 	import Button from '@/components/shared/Button.svelte';
+	import { onMount } from 'svelte';
+	import { navigationState } from '@/states/navigation.svelte';
 
-	let { uid }: { uid?: string } = $page.params;
 	let user: User | null | undefined = $state<User | null | undefined>(undefined);
 	let ratings: Array<Rating> | null | undefined = $state<Array<Rating> | null | undefined>(
 		undefined
@@ -34,6 +35,8 @@
 	};
 
 	const handleFollowButtonClick = async (): Promise<void> => {
+		let { uid }: { uid?: string } = $page.params;
+
 		if (typeof uid === 'undefined') {
 			console.error('There is no given user UID!');
 			return;
@@ -52,14 +55,14 @@
 		goto('/settings');
 	};
 
-	onMount(() => {
-		if (userState.uid === uid) {
-			user = userState.data;
+	const fetchData = (uid: string | undefined): void => {
+		if (typeof uid === 'undefined') {
+			console.error('There are no given user UID');
 			return;
 		}
 
-		if (typeof uid === 'undefined') {
-			console.error('There are no given user UID');
+		if (userState.uid === uid) {
+			user = userState.data;
 			return;
 		}
 
@@ -74,9 +77,29 @@
 		isCurrentUserFollowedByUid(uid).then((value: boolean): void => {
 			isCurrentUserFollowedByThisAccount = value;
 		});
+	};
+
+	onMount(() => {
+		fetchData($page.params.uid);
 	});
 
 	$effect(() => {
+		if ($navigating) {
+			if (!($navigating.to && $navigating.to.params)) {
+				console.error("The account's UID is missing.");
+				return;
+			}
+
+			isReady = false;
+			isLoading = true;
+
+			fetchData($navigating.to.params.uid);
+		}
+	});
+
+	$effect(() => {
+		let { uid }: { uid?: string } = $page.params;
+
 		if (typeof uid === 'undefined' || typeof user === 'undefined' || user === null) {
 			return;
 		}
@@ -120,7 +143,7 @@
 				</div>
 
 				<div class="profile__header__buttons">
-					{#if userState.uid !== uid}
+					{#if userState.uid !== user.uid}
 						<Button
 							size="compact"
 							color={isFollowedByCurrentUser ? 'dark' : 'primary'}
