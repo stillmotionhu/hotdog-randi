@@ -7,7 +7,9 @@
 	import type { Rating } from '@/collections/Rating';
 	import { fetchUserDataByUid } from '@/utils/users/fetch-user-data-by-uid';
 	import { fetchRatingsByUserUid } from '@/utils/ratings/fetch-ratings-by-user-uid';
-	import { signOutCurrentUser } from '@/utils/auth/sign-out-current-user';
+	import { isAccountFollowedByCurrentUser } from '@/utils/users/is-account-followed-by-current-user';
+	import { isCurrentUserFollowedByUid } from '@/utils/users/is-current-user-followed-by-uid';
+	import { followUserByUid } from '@/utils/users/follow-user-by-uid';
 
 	import LoadingWrapper from '@/components/shared/LoadingWrapper.svelte';
 	import Spinner from '@/components/shared/Spinner.svelte';
@@ -22,11 +24,32 @@
 	let ratings: Array<Rating> | null | undefined = $state<Array<Rating> | null | undefined>(
 		undefined
 	);
+	let isFollowedByCurrentUser: boolean = $state<boolean>(false);
+	let isCurrentUserFollowedByThisAccount: boolean = $state<boolean>(false);
 	let isReady: boolean = $state<boolean>(false);
 	let isLoading: boolean = $state<boolean>(true);
 
 	const onSpinnerAnimationEnd = (): void => {
 		isReady = true;
+	};
+
+	const handleFollowButtonClick = async (): Promise<void> => {
+		if (typeof uid === 'undefined') {
+			console.error('There is no given user UID!');
+			return;
+		}
+
+		try {
+			await followUserByUid(uid);
+
+			isFollowedByCurrentUser = await isAccountFollowedByCurrentUser(uid);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const handleSettingsButtonClick = (): void => {
+		goto('/settings');
 	};
 
 	onMount(() => {
@@ -43,6 +66,14 @@
 		fetchUserDataByUid(uid).then((value: User | null) => {
 			user = value;
 		});
+
+		isAccountFollowedByCurrentUser(uid).then((value: boolean): void => {
+			isFollowedByCurrentUser = value;
+		});
+
+		isCurrentUserFollowedByUid(uid).then((value: boolean): void => {
+			isCurrentUserFollowedByThisAccount = value;
+		});
 	});
 
 	$effect(() => {
@@ -55,17 +86,6 @@
 			isLoading = false;
 		});
 	});
-
-	const handleSignOut = () => {
-		// TODO: Better, visual handling.
-		signOutCurrentUser()
-			.then(() => {
-				goto('/sign-in');
-			})
-			.catch((error) => {
-				console.error('Error signing out:', error);
-			});
-	};
 </script>
 
 {#if !isReady}
@@ -98,6 +118,28 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="profile__header__buttons">
+					{#if userState.uid !== uid}
+						<Button
+							size="compact"
+							color={isFollowedByCurrentUser ? 'dark' : 'primary'}
+							onclick={handleFollowButtonClick}
+						>
+							{#if isFollowedByCurrentUser}
+								Following
+							{:else if isCurrentUserFollowedByThisAccount}
+								Follow back
+							{:else}
+								Follow
+							{/if}
+						</Button>
+					{:else}
+						<Button size="compact" color="dark" onclick={handleSettingsButtonClick}>
+							Settings
+						</Button>
+					{/if}
+				</div>
 			</header>
 
 			<div class="profile__ratings__wrapper">
@@ -111,10 +153,6 @@
 					{/if}
 				</RatingsContainer>
 			</div>
-
-			{#if userState.uid === uid}
-				<Button color="danger" onclick={handleSignOut}>Sign Out</Button>
-			{/if}
 		{/if}
 	</PageContainer>
 {/if}
@@ -128,17 +166,25 @@
 
 	.profile {
 		&__header {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			gap: 20px;
+			display: grid;
+			grid-template-areas:
+				'avatar details'
+				'buttons buttons';
+			grid-template-columns: 80px auto;
+			grid-template-rows: auto auto;
+			gap: 15px;
 			animation-name: reveal-element;
 			animation-duration: 0.5s;
+
+			:global(.profile__avatar) {
+				grid-area: avatar;
+			}
 
 			&__details {
 				display: flex;
 				flex-direction: column;
 				gap: 10px;
+				grid-area: details;
 			}
 
 			&__info__wrapper {
@@ -169,6 +215,10 @@
 				&__label {
 					font-weight: 400;
 				}
+			}
+
+			&__buttons {
+				grid-area: buttons;
 			}
 		}
 	}

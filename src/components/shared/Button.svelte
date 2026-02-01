@@ -2,12 +2,14 @@
 	import type { Snippet } from 'svelte';
 	import type { ButtonType } from '@/types/button-type';
 	import type { ButtonColor } from '@/types/button-color';
+	import type { ButtonSize } from '@/types/button-size';
 
 	import Spinner from '@/components/shared/Spinner.svelte';
 
 	interface ButtonProps {
 		type?: ButtonType;
 		color?: ButtonColor;
+		size?: ButtonSize;
 		isDisabled?: boolean;
 		isLoading?: boolean;
 		onclick?: () => void;
@@ -17,6 +19,7 @@
 	let {
 		type = 'button',
 		color = 'primary',
+		size = 'normal',
 		isDisabled = false,
 		isLoading = false,
 		onclick,
@@ -30,6 +33,7 @@
 	disabled={isDisabled}
 	tabindex="0"
 	data-color={color}
+	data-size={size}
 	data-state={isLoading ? 'loading' : 'default'}
 	{onclick}
 >
@@ -39,9 +43,8 @@
 
 <style lang="scss">
 	.button {
+		display: block;
 		width: 100%;
-		height: 60px;
-		border-radius: 30px;
 		border: 1px solid rgba(255, 255, 255, 0.3);
 		box-shadow:
 			0 0px 32px rgba(0, 0, 0, 0.07),
@@ -74,6 +77,24 @@
 			}
 		}
 
+		&[data-color='dark'] {
+			color: rgb(var(--bg));
+			background-image: linear-gradient(
+				145deg,
+				color-mix(in srgb, rgba(var(--fg, 0.75)), black 10%),
+				color-mix(in srgb, rgba(var(--fg, 0.75)), black 15%)
+			);
+
+			&:disabled {
+				color: color-mix(in srgb, rgb(var(--fg)), white 85%);
+				background-image: linear-gradient(
+					145deg,
+					color-mix(in srgb, rgba(var(--fg, 0.75)), white 5%),
+					color-mix(in srgb, rgba(var(--fg, 0.75)), white 1%)
+				);
+			}
+		}
+
 		&[data-color='danger'] {
 			color: rgb(var(--bg));
 			background-image: linear-gradient(
@@ -101,6 +122,16 @@
 			);
 		}
 
+		&[data-size='normal'] {
+			height: 60px;
+			border-radius: 30px;
+		}
+
+		&[data-size='compact'] {
+			height: 40px;
+			border-radius: 20px;
+		}
+
 		&:disabled {
 			cursor: text;
 		}
@@ -116,9 +147,16 @@
 			align-items: center;
 			justify-content: center;
 			width: 100%;
-			height: 60px;
 			font-size: 1rem;
 			transition: transform 0.35s cubic-bezier(0.6, 0.5, 0.05, 1);
+
+			.button[data-size='normal'] & {
+				height: 60px;
+			}
+
+			.button[data-size='compact'] & {
+				height: 40px;
+			}
 
 			.button[data-state='default'] & {
 				transform: translateY(0);
