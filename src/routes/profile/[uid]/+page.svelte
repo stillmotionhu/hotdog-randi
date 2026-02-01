@@ -19,7 +19,6 @@
 	import RatingCard from '@/components/shared/rating-card/RatingCard.svelte';
 	import Button from '@/components/shared/Button.svelte';
 	import { onMount } from 'svelte';
-	import { navigationState } from '@/states/navigation.svelte';
 
 	let user: User | null | undefined = $state<User | null | undefined>(undefined);
 	let ratings: Array<Rating> | null | undefined = $state<Array<Rating> | null | undefined>(
