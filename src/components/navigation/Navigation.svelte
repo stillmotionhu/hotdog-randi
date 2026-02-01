@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Route } from '@/types/route';
 	import { navigationState } from '@/states/navigation.svelte';
+	import { userState } from '@/states/user.svelte';
 
 	import NavigationLink from '@/components/navigation/NavigationLink.svelte';
 
@@ -13,7 +14,7 @@
 	let hasRevealAnimationEnded: boolean = $state<boolean>(false);
 
 	const handleAnimationEnd = (event: AnimationEvent): void => {
-		if (!event.animationName === 'reveal-navigation') {
+		if (!(event.animationName === 'reveal-navigation')) {
 			return;
 		}
 
@@ -42,7 +43,7 @@
 			icon: SearchIcon
 		},
 		{
-			href: '/profile',
+			href: '/profile/' + userState.uid,
 			label: 'Profile',
 			icon: ProfileIcon
 		}

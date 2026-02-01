@@ -10,12 +10,12 @@
 	let { children, id, isCentered = false }: PageContainerProps = $props();
 </script>
 
-<div class={['page-container', isCentered && 'page-container--centered']} {id}>
+<div class={['page__container', isCentered && 'page__container--centered']} {id}>
 	{@render children()}
 </div>
 
 <style lang="scss">
-	.page-container {
+	.page__container {
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;

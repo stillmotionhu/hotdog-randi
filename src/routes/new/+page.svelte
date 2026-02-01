@@ -183,20 +183,8 @@
 </PageContainer>
 
 <style lang="scss">
-	@keyframes reveal-element {
-		0% {
-			opacity: 0;
-			transform: scale(0.7, 0.8) translateY(15px);
-		}
-
-		100% {
-			opacity: 1;
-			transform: scale(1) translateY(0);
-		}
-	}
-
 	:global {
-		.page-container#createRatingForm {
+		.page__container#createRatingForm {
 			.page-title,
 			.form > * {
 				animation-name: reveal-element;

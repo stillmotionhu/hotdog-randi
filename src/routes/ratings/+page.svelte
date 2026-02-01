@@ -8,6 +8,7 @@
 	import RatingsFilter from '@/components/pages/ratings/ratings-filter/RatingsFilter.svelte';
 	import LoadingWrapper from '@/components/shared/LoadingWrapper.svelte';
 	import Spinner from '@/components/shared/Spinner.svelte';
+	import RatingsContainer from '@/components/shared/RatingsContainer.svelte';
 	import RatingCard from '@/components/shared/rating-card/RatingCard.svelte';
 
 	let ratings: Array<Rating> = $state<Array<Rating>>([]);
@@ -71,7 +72,7 @@
 
 {#if isReady}
 	<div class="ratings__wrapper">
-		<div class="ratings__container">
+		<RatingsContainer>
 			{#if ratings.length === 0}
 				You have no ratings yet. You can change that!
 			{:else}
@@ -79,7 +80,7 @@
 					<RatingCard {rating} />
 				{/each}
 			{/if}
-		</div>
+		</RatingsContainer>
 	</div>
 {/if}
 
@@ -141,17 +142,6 @@
 				animation-name: fade-out-ratings;
 				animation-duration: 0.3s;
 				animation-timing-function: ease-out;
-			}
-		}
-
-		&__container {
-			display: grid;
-			grid-template-columns: repeat(2, 1fr);
-			gap: 35px;
-
-			@include breakpoint(lg) {
-				display: flex;
-				flex-direction: column;
 			}
 		}
 	}

@@ -88,6 +88,7 @@
 <style lang="scss">
 	@use '@/styles/normalize.scss';
 	@use '@/styles/variables.scss';
+	@use '@/styles/keyframes.scss';
 
 	:global {
 		* {

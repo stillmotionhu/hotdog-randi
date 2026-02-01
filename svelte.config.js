@@ -29,6 +29,9 @@ const config = {
 			precompress: false,
 			strict: true
 		}),
+		prerender: {
+			handleUnseenRoutes: 'ignore'
+		},
 		alias: {
 			'@/*': 'src/*'
 		}

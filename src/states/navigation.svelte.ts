@@ -45,7 +45,7 @@ export function updateNavigationActiveRoutePillWidthAndPosition(): void {
 }
 
 export function updateNagivationActiveRoute(): void {
-	navigationState.activeRoute = ['/', page.url.pathname.split('/')[1]].join('');
+	navigationState.activeRoute = page.url.pathname;
 
 	updateNavigationActiveRoutePillWidthAndPosition();
 }

@@ -56,7 +56,7 @@
 	});
 </script>
 
-<PageContainer isCentered>
+<PageContainer id="signUpForm" isCentered>
 	<Card isBgTransparent>
 		<CardHeader>
 			<CardTitle>Sign Up</CardTitle>
@@ -95,3 +95,34 @@
 		</CardFooter>
 	</Card>
 </PageContainer>
+
+<style lang="scss">
+	:global {
+		.page__container#signUpForm {
+			.card__title,
+			.form > *,
+			.card__footer > * {
+				animation-name: reveal-element;
+				animation-duration: 0.5s;
+				animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+				animation-fill-mode: backwards;
+			}
+
+			.form > * {
+				@for $i from 1 through 6 {
+					&:nth-child(#{$i}) {
+						animation-delay: #{0.025 * $i}s;
+					}
+				}
+			}
+
+			.card__footer > * {
+				@for $i from 1 through 3 {
+					&:nth-child(#{$i}) {
+						animation-delay: #{0.025 * (6 + $i)}s;
+					}
+				}
+			}
+		}
+	}
+</style>
