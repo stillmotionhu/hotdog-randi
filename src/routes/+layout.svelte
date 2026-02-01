@@ -33,7 +33,7 @@
 		// cancel it and scroll to the top of the page.
 		// If we don't cancel it, the page scrolls to the top, and it overrides the
 		// smooth scrolling.
-		if (from.route.id === to.route.id) {
+		if (from.url.pathname === to.url.pathname) {
 			cancel();
 			smoothScrollToTop();
 
