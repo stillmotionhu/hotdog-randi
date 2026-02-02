@@ -84,8 +84,7 @@
 
 	$effect(() => {
 		if ($navigating) {
-			if (!($navigating.to && $navigating.to.params)) {
-				console.error("The account's UID is missing.");
+			if (!($navigating.to && $navigating.to.params && $navigating.to.params.uid)) {
 				return;
 			}
 
