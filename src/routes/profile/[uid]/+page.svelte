@@ -183,7 +183,7 @@
 	:global(.page__container#profilePage) {
 		display: flex;
 		flex-direction: column;
-		gap: 35px;
+		gap: 20px;
 	}
 
 	.profile {
